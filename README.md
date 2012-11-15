@@ -1,7 +1,7 @@
 dossier
 =======
 
-An all-in-one web service & frontend for quickly researching IP addresses and Hostnames.
+An all-in-one web service & frontend for quickly researching IP addresses DNS entries, etc.
 
 The intent with this application was to develop some simple rest-ful web services for querying information about IP addresses and hostnames/DNS names. The frontend HTML file consumes this API directly via JavaScript and displays results via mustache.js templates. Why? I wanted to tinker with them.
 
