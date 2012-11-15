@@ -22,6 +22,7 @@ IPv4 Address:
 No attempt has been made to implement IPv6.
 
 The following steps will get Dossier working on an Ubuntu 12.04 machine:
+
 1. Download the MaxMind GeoLite Cuty Free datafile from: http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
 2. Unzip and put it in the same directory as dossier.py
 3. sudo apt-get install python-pip
