@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" itemscope itemtype="http://schema.org/Article">
+	<head>
+		<meta charset="utf-8">
+		<title>Information</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+		<link rel="stylesheet/less" type="text/css" href="{{ url_for('static', filename='css/grid.less') }}" />
+		<link rel="stylesheet/less" type="text/css" href="{{ url_for('static', filename='css/main.less') }}" />
+
+		<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/mustache.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/jquery.mustache.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/less.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+		<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.css') }}">
+	</head>
+	<body>
+	   	<div class="container">
+	   		<div class="row">
+	   			<div class="twelve column">
+	   				<form id='netquery'><input id='query' type='text' value=''><input type='submit'></form>
+	   			</div>
+	   		</div>
+	   		<div class="row">
+	   			<div id='netquery_output' class="twelve column">
+	   			</div>
+	   		</div>
+	   	</div>
+	   	<br />
+
+{% raw %}
+<script id="query-ip" type="text/html">
+	<h2>Reverse DNS</h2>
+	<table>
+		<tr><th>Record</th></tr>
+		{{#reversedns.records}}
+		<tr><td>{{reversedns.records}}</td></tr>
+		{{/reversedns.records}}
+		{{^reversedns.records}}
+		<tr><td><i>No records found</i></td></tr>
+		{{/reversedns.records}}
+	</table>
+
+	<h2>GEOIP Information</h2>
+	{{#geoip.country}}
+	<table>
+		<tr><th style='width: 25%;'>Key</th><th style='width: 75%;'>Value</th></tr>
+
+		<tr><td>City</td><td>{{geoip.city}}</td></tr>
+		<tr><td>Area Code</td><td>{{geoip.areaCode}}</td></tr>
+		<tr><td>Country</td><td>{{geoip.country}} ({{geoip.countryCode}} / {{geoip.countryCode3}})</td></tr>
+		<tr><td>dmaCode</td><td>{{geoip.dmaCode}}</td></tr>
+		<tr><td>Latitude/Longitude</td><td>{{geoip.latitude}} / {{geoip.longitude}}</td></tr>
+		<tr><td>Metro Code</td><td>{{geoip.metroCode}}</td></tr>
+		<tr><td>Postal Code</td><td>{{geoip.postalCode}}</td></tr>
+		<tr><td>Region Name</td><td>{{geoip.regionName}}</td></tr>
+		<tr><td>Time Zone</td><td>{{geoip.timeZone}}</td></tr>
+	</table>
+	{{/geoip.country}}
+
+	{{^geoip.country}}
+	No information found.
+	{{/geoip.country}}
+
+	<h2>Shodan Information</h2>
+	<table>
+		<tr><th style='width: 70%'>Banner</th><th style='width: 15%;'>Port</th><th style='width: 15%;'>Timestamp</th></tr>
+	{{#shodan.data}}
+		<tr><td>{{banner}}</td><td>{{port}}</td><td>{{timestamp}}</td></tr>
+	{{/shodan.data}}
+	</table>
+
+	<h2>ARIN Record</h2>
+	<table>
+		<tr><th style='width: 25%;'>Key</th><th style='width: 75%;'>Value</th></tr>
+
+		<tr><td>Start Address</td><td>{{arin.startAddress}}</td></tr>
+		<tr><td>End Address</td><td>{{arin.endAddress}}</td></tr>
+
+		<tr><td>Handle</td><td>{{arin.handle}}</td></tr>
+		<tr><td>Name</td><td>{{arin.name}}</td></tr>
+
+		<tr><td>Registration Date</td><td>{{arin.registrationDate}}</td></tr>
+		<tr><td>Update Date</td><td>{{arin.updateDate}}</td></tr>
+
+		{{#arin.orgRef}}
+		<tr><th colspan=2>Organization Reference</th></tr>
+		<tr><td>Handle</td><td><a href='{{reference}}'>{{handle}}</a></td></tr>
+		<tr><td>name</td><td>{{name}}</td></tr>
+		{{/arin.orgRef}}
+
+		{{#arin.netBlocks}}
+		<tr><th colspan=2>Netblock</th></tr>
+		<tr><td>CIDR Length</td><td>{{cidrLength}}</td></tr>
+		<tr><td>Description</td><td>{{description}}</td></tr>
+		<tr><td>Start Address</td><td>{{arin.startAddress}}</td></tr>
+		<tr><td>End Address</td><td>{{arin.endAddress}}</td></tr>
+		<tr><td>Type</td><td>{{type}}</td></tr>
+		{{/arin.netBlocks}}
+	</table>
+
+</script>
+
+<script id="query-dns" type="text/html">
+	<h2>DNS</h2>
+	<table>
+		<tr><th style='width: 10%;'>Key</th><th style='width: 90%;'>Value</th></tr>
+	{{#dns}}
+		<tr><td>{{type}}</td><td class='pre'>{{string}}</td></tr>
+	{{/dns}}
+	</table>
+
+	<h2>Whois Information</h2>
+	<table>
+		<tr><td class='pre'>{{whois}}</td></tr>
+	</table>
+
+	<h2>Shodan Information</h2>
+	<table>
+		<tr><th style='width: 50%'>Hostname</th><th style='width: 25%;'>IP:Port</th><th style='width: 25%;'>Date</th></tr>
+	{{#shodan.matches}}
+		<tr><td>{{#hostnames}}{{hostnames}}{{/hostnames}}{{^hostnames}}<i>Hostname Unknown</i>{{/hostnames}}</td><td>{{ip}}:{{port}}</td><td>{{updated}}</td></tr>
+		<tr><td colspan=3 class='pre'>{{data}}</td></tr>
+	{{/shodan.matches}}
+	{{^shodan.matches}}
+		<tr><td colspan=3><i>No records found</i></td></tr>
+	{{/shodan.matches}}
+	</table>
+
+	<h2>Other Resources</h2>
+	<ul>
+	{{#resources}}
+		<li><a href="{{value}}">{{name}}</a></li>
+	{{/resources}}
+	</ul>
+</script>
+
+{% endraw %}
+
+	</body>
+</html>

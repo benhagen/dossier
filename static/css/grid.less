@@ -1,0 +1,49 @@
+/*
+A grid
+*/
+
+
+@width: 72em;
+@padding: 1em;
+
+.container {
+	box-sizing: border-box;
+	margin: 0 auto;
+	width: @width;
+}
+
+.row {
+	box-sizing: border-box;
+	margin: 0 auto;
+	width: @width;
+}
+
+.column {
+	box-sizing: border-box;
+	float: left;
+	position: relative;
+	padding: @padding;
+	min-height: 1px;
+}
+
+[class*="column"] + [class*="column"]:last-child {
+	background-color: red;
+	float: right;
+}
+
+[class*="column"] + [class*="column"].end {
+	float: left;
+}
+
+.row .one		{ width: @width/12 * 1; }
+.row .two		{ width: @width/12 * 2; }
+.row .three		{ width: @width/12 * 3; }
+.row .four		{ width: @width/12 * 4; }
+.row .five		{ width: @width/12 * 5; }
+.row .six		{ width: @width/12 * 6; }
+.row .seven		{ width: @width/12 * 7; }
+.row .eight		{ width: @width/12 * 8; }
+.row .nine		{ width: @width/12 * 9; }
+.row .ten		{ width: @width/12 * 10; }
+.row .eleven	{ width: @width/12 * 11; }
+.row .twelve	{ width: @width/12 * 12; }
