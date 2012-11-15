@@ -21,6 +21,9 @@ IPv4 Address:
 
 No attempt has been made to implement IPv6.
 
+Installation
+------------
+
 The following steps will get Dossier working on an Ubuntu 12.04 machine:
 
 1. Download the MaxMind GeoLite Cuty Free datafile from: http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
@@ -30,7 +33,10 @@ The following steps will get Dossier working on an Ubuntu 12.04 machine:
 5. ./app.py
 6. Goto: http://127.0.0.1:5000 in your web browser
 
-The flask application should be configurable as any other WSGI application for "permanent" installation. See: http://flask.pocoo.org/docs/deploying/ for more information
+The flask application should be configurable as any other WSGI application for "permanent" installation. See: http://flask.pocoo.org/docs/deploying/ for more information. Again, I wouldn't really recommend exposing this to the untrusted users.
+
+Notes
+-----
 
 Next Steps:
 * Implement (better) logging
