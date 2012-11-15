@@ -8,30 +8,29 @@ The intent with this application was to develop some simple rest-ful web service
 Not really something you should want to deploy for public consumption yet, but it has been incredibly useful as a personal/internal tool.
 
 Current data sources include:
-DNS/hostname:
-whois
-DNS
-SHODAN
+* DNS/hostname:
+* whois
+* DNS
+* Shodan Information (if API key is provided)
 
 IPv4 Address:
-Reverse DNS
-GeoIP Information (via MaxMind)
-Shodan Information (if API key is provided)
-ARIN Record (via the Arin WebAPI)
-
+* Reverse DNS
+* GeoIP Information (via MaxMind)
+* Shodan Information (if API key is provided)
+* ARIN Record (via the Arin WebAPI)
 
 No attempt has been made to implement IPv6.
 
 The following steps will get Dossier working on an Ubuntu 12.04 machine:
-Download the MaxMind GeoLite Cuty Free datafile from: http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
-Unzip and put it in the same directory as dossier.py
-sudo apt-get install python-pip
-sudo pip install flask requests pygeoip dnspython shodan
-./app.py
-Goto: http://127.0.0.1:5000 in your web browser
+1. Download the MaxMind GeoLite Cuty Free datafile from: http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
+2. Unzip and put it in the same directory as dossier.py
+3. sudo apt-get install python-pip
+4. sudo pip install flask requests pygeoip dnspython shodan
+5. ./app.py
+6. Goto: http://127.0.0.1:5000 in your web browser
 
 The flask application should be configurable as any other WSGI application for "permanent" installation. See: http://flask.pocoo.org/docs/deploying/ for more information
 
 Next Steps:
-Implement (better) logging
-Add more information resources
+* Implement (better) logging
+* Add more information resources
