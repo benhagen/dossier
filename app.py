@@ -54,16 +54,15 @@ def query_ip(query):
 		return response
 	output = {}
 	output["arin"] = ip.arin(query)
-	output["geoip"] = ip.geoip(query)
+	output["geoip"] = ip.geoip(query, geoip_file=app.config['GEOIP_FILE'])
 	output["reversedns"] = ip.reversedns(query)
-	output["shodan"] = ip.shodanquery(query)
+	output["shodan"] = ip.shodanquery(query, api_key=app.config['SHODAN_API_KEY'])
 	response_code = 200
 	return response_json(output, response_code=response_code)
 
 
 @app.route("/dns/<string:query>", methods=['GET'])
 def query_dns(query):
-	print app.config
 	logger.info("DNS query received for \"%s\"" % (query))
 	if not ip.is_valid_domain(query):
 		response = make_response()

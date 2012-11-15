@@ -113,7 +113,7 @@ def arin(ip_address):
 	return output
 
 
-def geoip(ip_address):
+def geoip(ip_address, file='./GeoLiteCity.dat'):
 	output = {}
 	gic = pygeoip.GeoIP('./GeoLiteCity.dat')
 	mapping = {
