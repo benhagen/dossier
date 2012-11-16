@@ -113,9 +113,9 @@ def arin(ip_address):
 	return output
 
 
-def geoip(ip_address, file='./GeoLiteCity.dat'):
+def geoip(ip_address, geoip_file='./GeoLiteCity.dat'):
 	output = {}
-	gic = pygeoip.GeoIP('./GeoLiteCity.dat')
+	gic = pygeoip.GeoIP(geoip_file)
 	mapping = {
 		"area_code": "areaCode",
 		"city": "city",
