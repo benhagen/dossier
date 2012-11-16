@@ -21,6 +21,13 @@ IPv4 Address:
 
 No attempt has been made to implement IPv6.
 
+Endpoints
+---------
+
+The following endpoints respond to restful GET queries with JSON formatted information:
+* /dns/[dns address]
+* /ip/[IPv4 address]
+
 Installation
 ------------
 
