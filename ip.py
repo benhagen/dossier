@@ -191,7 +191,7 @@ def whois(domain, server=False, depth=0):
 		output += line.rstrip() + "\n"
 	# Apply defluffing regular expressions
 	for fluff in WHOIS_DEFLUFF:
-		output = re.sub(fluff, "", output, flags=re.DOTALL)
+		output = re.sub(fluff, "", output, re.DOTALL)
 
 	while output.find("\n\n\n") != -1:
 		output = output.replace("\n\n\n", "\n\n")
