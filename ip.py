@@ -77,27 +77,28 @@ def is_valid_domain(domain):
 def arin(ip_address):
 	response = requests.get("http://whois.arin.net/rest/ip/%s" % (ip_address), headers={'Accept': 'application/json'})
 	output = {}
-	if "comment" in response.json["net"]:
+	response_json = response.json()
+	if "comment" in response_json["net"]:
 		output["comment"] = ""
-		if type(response.json["net"]["comment"]["line"]) == type([]):
-			for line in response.json["net"]["comment"]["line"]:
+		if type(response_json["net"]["comment"]["line"]) == type([]):
+			for line in response_json["net"]["comment"]["line"]:
 				output["comment"] += line["$"].strip() + "\n"
 		else:
-			output["comment"] += response.json["net"]["comment"]["line"]["$"].strip()
-	output["startAddress"] = response.json["net"]["startAddress"]["$"]
-	output["endAddress"] = response.json["net"]["endAddress"]["$"]
-	output["updateDate"] = response.json["net"]["updateDate"]["$"]
-	output["handle"] = response.json["net"]["handle"]["$"]
-	output["name"] = response.json["net"]["name"]["$"]
-	if "registrationDate" in response.json["net"]:
-		output["registrationDate"] = response.json["net"]["registrationDate"]["$"]
-	if "orgRef" in response.json["net"]:
+			output["comment"] += response_json["net"]["comment"]["line"]["$"].strip()
+	output["startAddress"] = response_json["net"]["startAddress"]["$"]
+	output["endAddress"] = response_json["net"]["endAddress"]["$"]
+	output["updateDate"] = response_json["net"]["updateDate"]["$"]
+	output["handle"] = response_json["net"]["handle"]["$"]
+	output["name"] = response_json["net"]["name"]["$"]
+	if "registrationDate" in response_json["net"]:
+		output["registrationDate"] = response_json["net"]["registrationDate"]["$"]
+	if "orgRef" in response_json["net"]:
 		output["orgRef"] = {}
-		output["orgRef"]["name"] = response.json["net"]["orgRef"]["@name"]
-		output["orgRef"]["handle"] = response.json["net"]["orgRef"]["@handle"]
-		output["orgRef"]["reference"] = response.json["net"]["orgRef"]["$"]
+		output["orgRef"]["name"] = response_json["net"]["orgRef"]["@name"]
+		output["orgRef"]["handle"] = response_json["net"]["orgRef"]["@handle"]
+		output["orgRef"]["reference"] = response_json["net"]["orgRef"]["$"]
 	output["netBlocks"] = []
-	for netblock in response.json["net"]["netBlocks"].values():
+	for netblock in response_json["net"]["netBlocks"].values():
 #		block = []
 		block_section = {}
 		if type(netblock) == type([]):
@@ -122,6 +123,7 @@ def geoip(ip_address, geoip_file='./GeoLiteCity.dat'):
 		"country_code": "countryCode",
 		"country_code3": "countryCode3",
 		"country_name": "country",
+		"continent": "continent",
 		"dma_code": "dmaCode",
 		"latitude": "latitude",
 		"longitude": "longitude",
@@ -133,7 +135,8 @@ def geoip(ip_address, geoip_file='./GeoLiteCity.dat'):
 	result = gic.record_by_addr(ip_address)
 	if result:
 		for key, value in result.items():
-			output[mapping[key]] = value
+			if key in mapping:
+				output[mapping[key]] = value
 	return output
 
 
